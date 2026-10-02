@@ -367,6 +367,14 @@ require_once __DIR__ . '/includes/header.php';
                         <div>
                           <span class="fw-bold fs-6 text-navy">Order #SMZ-<?php echo sprintf('%05d', $ord['id']); ?></span>
                           <span class="text-muted small ms-2">• Placed on <?php echo date('M d, Y', strtotime($ord['created_at'])); ?></span>
+                          <?php if (!empty($ord['payment_method']) && $ord['payment_method'] === 'card'): ?>
+                            <span class="badge bg-primary-subtle text-primary border ms-1"><i class="bi bi-credit-card-fill me-1"></i> PayHere Card</span>
+                            <?php if (($ord['payment_status'] ?? '') === 'paid'): ?>
+                              <span class="badge bg-success-subtle text-success border ms-1"><i class="bi bi-check-circle-fill me-1"></i> Paid</span>
+                            <?php else: ?>
+                              <span class="badge bg-warning-subtle text-warning border ms-1"><i class="bi bi-clock me-1"></i> Pending Payment</span>
+                            <?php endif; ?>
+                          <?php endif; ?>
                         </div>
                         <div>
                           <span class="badge <?php echo $badgeClass; ?> px-3 py-2 fw-bold" style="font-size: 0.82rem;">

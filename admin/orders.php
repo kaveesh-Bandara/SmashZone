@@ -196,6 +196,20 @@ $orders = $stmt->fetchAll();
                               <div class="fw-bold"><?= htmlspecialchars($ord['first_name'] . ' ' . $ord['last_name']) ?></div>
                               <div class="small text-muted"><?= htmlspecialchars($ord['email']) ?></div>
                               <div class="small text-muted"><?= htmlspecialchars($ord['phone'] ?: 'N/A') ?></div>
+                              <div class="mt-2 pt-2 border-top small">
+                                <span class="fw-bold">Payment Method:</span> <span class="badge bg-info text-dark"><?= strtoupper($ord['payment_method'] ?? 'COD') ?></span><br>
+                                <span class="fw-bold">Payment Status:</span> 
+                                <?php if (($ord['payment_status'] ?? '') === 'paid'): ?>
+                                  <span class="badge bg-success">PAID</span>
+                                <?php elseif (($ord['payment_status'] ?? '') === 'failed'): ?>
+                                  <span class="badge bg-danger">FAILED</span>
+                                <?php else: ?>
+                                  <span class="badge bg-warning text-dark">PENDING</span>
+                                <?php endif; ?>
+                                <?php if (!empty($ord['payhere_payment_id'])): ?>
+                                  <br><span class="fw-bold">PayHere Ref:</span> <code><?= htmlspecialchars($ord['payhere_payment_id']) ?></code>
+                                <?php endif; ?>
+                              </div>
                             </div>
                           </div>
                           <div class="col-md-6">

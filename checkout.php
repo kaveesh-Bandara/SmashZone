@@ -27,6 +27,9 @@ $orderConfirmed = false;
 $confirmedOrderRef = 0;
 $confirmedOrderDetails = null;
 
+$payhereRedirect = false;
+$payhereParams = [];
+
 // Calculate Totals
 $subtotal = 0;
 foreach ($cart as $item) {
@@ -65,9 +68,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
                                "Payment Method: " . strtoupper($paymentMethod) . "\n" .
                                ($notes ? "Notes: $notes" : "");
 
+                $paymentStatus = ($paymentMethod === 'card') ? 'pending' : 'completed';
+
                 // Insert into orders table
-                $orderStmt = $pdo->prepare("INSERT INTO orders (user_id, total_amount, status, shipping_address, created_at) VALUES (?, ?, 'pending', ?, NOW())");
-                $orderStmt->execute([$user['id'], $grandTotal, $fullAddress]);
+                $orderStmt = $pdo->prepare("INSERT INTO orders (user_id, total_amount, status, payment_method, payment_status, shipping_address, created_at) VALUES (?, ?, 'pending', ?, ?, ?, NOW())");
+                $orderStmt->execute([$user['id'], $grandTotal, $paymentMethod, $paymentStatus, $fullAddress]);
                 $orderId = $pdo->lastInsertId();
 
                 // Insert order items & reduce stock
@@ -81,22 +86,46 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
 
                 $pdo->commit();
 
-                // Save confirmed order data and clear session cart
-                $confirmedOrderRef = $orderId;
-                $confirmedOrderDetails = [
-                    'order_id' => $orderId,
-                    'items' => $cart,
-                    'subtotal' => $subtotal,
-                    'shipping' => $shippingFee,
-                    'total' => $grandTotal,
-                    'name' => "$firstName $lastName",
-                    'phone' => $phone,
-                    'address' => "$street, $city, $district",
-                    'payment_method' => $paymentMethod
-                ];
-                
-                $_SESSION['cart'] = [];
-                $orderConfirmed = true;
+                if ($paymentMethod === 'card') {
+                    // Generate PayHere Security Hash & Parameters
+                    $payhereHash = generatePayHereHash($orderId, $grandTotal, PAYHERE_CURRENCY);
+                    $payhereParams = [
+                        'merchant_id' => PAYHERE_MERCHANT_ID,
+                        'return_url'  => getSmashZoneBaseUrl() . 'payhere_callback.php?status=success&order_id=' . $orderId,
+                        'cancel_url'  => getSmashZoneBaseUrl() . 'payhere_callback.php?status=cancel&order_id=' . $orderId,
+                        'notify_url'  => getSmashZoneBaseUrl() . 'payhere_notify.php',
+                        'order_id'    => $orderId,
+                        'items'       => 'SmashZone Order #SMZ-' . sprintf('%05d', $orderId),
+                        'currency'    => PAYHERE_CURRENCY,
+                        'amount'      => number_format($grandTotal, 2, '.', ''),
+                        'first_name'  => $firstName,
+                        'last_name'   => $lastName,
+                        'email'       => $email,
+                        'phone'       => $phone,
+                        'address'     => $street,
+                        'city'        => $city,
+                        'country'     => 'Sri Lanka',
+                        'hash'        => $payhereHash
+                    ];
+                    $payhereRedirect = true;
+                } else {
+                    // Save confirmed order data and clear session cart for COD / Bank transfer
+                    $confirmedOrderRef = $orderId;
+                    $confirmedOrderDetails = [
+                        'order_id' => $orderId,
+                        'items' => $cart,
+                        'subtotal' => $subtotal,
+                        'shipping' => $shippingFee,
+                        'total' => $grandTotal,
+                        'name' => "$firstName $lastName",
+                        'phone' => $phone,
+                        'address' => "$street, $city, $district",
+                        'payment_method' => $paymentMethod
+                    ];
+                    
+                    $_SESSION['cart'] = [];
+                    $orderConfirmed = true;
+                }
 
             } catch (Exception $e) {
                 if ($pdo->inTransaction()) {
@@ -218,7 +247,62 @@ require_once __DIR__ . '/includes/header.php';
 <main class="pb-5">
   <div class="container">
 
-    <?php if ($orderConfirmed): ?>
+    <?php if ($payhereRedirect): ?>
+
+      <!-- PAYHERE SECURE GATEWAY REDIRECTION SCREEN -->
+      <div class="row justify-content-center py-5">
+        <div class="col-lg-7 text-center">
+          <div class="card border-0 shadow-lg rounded-4 p-4 p-md-5">
+            
+            <div class="mb-4">
+              <div class="d-inline-flex align-items-center justify-content-center bg-primary text-white rounded-circle shadow mb-3" style="width: 80px; height: 80px;">
+                <i class="bi bi-shield-lock-fill display-4 text-warning"></i>
+              </div>
+              <h3 class="fw-bold text-navy font-heading">Connecting to PayHere Payment Gateway...</h3>
+              <p class="text-muted small">Order Reference: <strong class="font-monospace text-primary">#SMZ-<?= sprintf('%05d', $payhereParams['order_id']) ?></strong> &nbsp;|&nbsp; Amount Payable: <strong class="text-success fs-6">Rs. <?= number_format((float)$payhereParams['amount'], 2) ?></strong></p>
+            </div>
+
+            <div class="py-4 px-4 bg-light rounded-4 border mb-4 text-center">
+              <div class="spinner-border text-warning mb-3" role="status" style="width: 3.5rem; height: 3.5rem;">
+                <span class="visually-hidden">Loading...</span>
+              </div>
+              <div class="fw-bold text-dark mb-1 fs-5">Redirecting to PayHere Instant Card Checkout</div>
+              <div class="small text-muted">Please wait while the secure card payment gateway is launching.</div>
+            </div>
+
+            <div class="d-flex justify-content-center align-items-center gap-2 mb-4 flex-wrap">
+              <span class="badge bg-secondary-subtle text-dark px-3 py-2 border"><i class="bi bi-credit-card-2-front me-1 text-primary"></i> PayHere Gateway</span>
+              <span class="badge bg-primary-subtle text-primary px-3 py-2 border"><i class="bi bi-shield-check me-1"></i> 256-Bit SSL Encrypted</span>
+              <span class="badge bg-success-subtle text-success px-3 py-2 border"><i class="bi bi-check-circle me-1"></i> Instant 3DS OTP Protection</span>
+            </div>
+
+            <!-- Hidden Form Auto-Submitted to PayHere Gateway Endpoint -->
+            <form id="payhereAutoForm" method="post" action="<?= PAYHERE_GATEWAY_URL ?>">
+              <?php foreach ($payhereParams as $key => $val): ?>
+                <input type="hidden" name="<?= htmlspecialchars($key) ?>" value="<?= htmlspecialchars($val) ?>">
+              <?php endforeach; ?>
+              
+              <button type="submit" class="btn btn-warning font-semibold btn-lg px-5 py-3 rounded-pill shadow">
+                <i class="bi bi-box-arrow-up-right me-2"></i> PROCEED TO PAYHERE PAYMENT GATEWAY
+              </button>
+            </form>
+
+          </div>
+        </div>
+      </div>
+
+      <script>
+        document.addEventListener("DOMContentLoaded", function() {
+          setTimeout(function() {
+            var form = document.getElementById('payhereAutoForm');
+            if (form) {
+              form.submit();
+            }
+          }, 800);
+        });
+      </script>
+
+    <?php elseif ($orderConfirmed): ?>
       
       <!-- ORDER CONFIRMATION SCREEN -->
       <div class="row justify-content-center py-4">
@@ -410,16 +494,17 @@ require_once __DIR__ . '/includes/header.php';
                 <span class="badge bg-success-subtle text-success font-semibold px-2 py-1">Popular</span>
               </label>
 
-              <!-- Option 2: Online Card Payment -->
+              <!-- Option 2: Online Card Payment via PayHere -->
               <label class="payment-option-card d-flex align-items-center justify-content-between" onclick="selectPaymentOption(this);">
                 <div class="d-flex align-items-center gap-3">
                   <input type="radio" name="payment_method" value="card" class="form-check-input">
                   <div>
-                    <div class="fw-bold text-dark"><i class="bi bi-credit-card text-primary me-1"></i> Credit / Debit Card (Visa / MasterCard / Amex)</div>
-                    <small class="text-muted">256-bit SSL Instant Secure Online Gateway.</small>
+                    <div class="fw-bold text-dark"><i class="bi bi-credit-card-2-front-fill text-primary me-1"></i> Credit / Debit Card (PayHere Online Gateway)</div>
+                    <small class="text-muted">Instant 256-Bit SSL Payment via Visa, MasterCard, AMEX & Local Cards.</small>
                   </div>
                 </div>
-                <div class="d-flex gap-1">
+                <div class="d-flex align-items-center gap-1">
+                  <span class="badge bg-primary-subtle text-primary font-semibold px-2 py-1 me-1" style="font-size: 0.75rem;"><i class="bi bi-shield-check me-1"></i>PayHere</span>
                   <i class="bi bi-credit-card-fill fs-5 text-primary"></i>
                 </div>
               </label>

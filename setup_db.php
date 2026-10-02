@@ -16,6 +16,24 @@ try {
         PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
     ]);
 
+    $cleanupTablespace = function($dbName) {
+        $paths = [
+            'C:\\xampp\\mysql\\data\\' . strtolower($dbName),
+            'C:\\xampp\\mysql\\data\\' . $dbName,
+        ];
+        foreach ($paths as $path) {
+            if (file_exists($path)) {
+                $files = glob($path . '/*');
+                if ($files) {
+                    foreach ($files as $file) {
+                        if (is_file($file)) @unlink($file);
+                    }
+                }
+                @rmdir($path);
+            }
+        }
+    };
+
     // Clean drop if tables are corrupted
     try {
         $pdo->exec("DROP DATABASE IF EXISTS `$dbname`");
@@ -23,22 +41,24 @@ try {
     } catch (Exception $ex) {}
 
     // Check for orphaned tablespace folder on XAMPP MySQL
-    $mysqlDataPath = 'C:\\xampp\\mysql\\data\\smashzone';
-    if (file_exists($mysqlDataPath)) {
-        $files = glob($mysqlDataPath . '/*');
-        if ($files) {
-            foreach ($files as $file) {
-                if (is_file($file)) @unlink($file);
-            }
-        }
-        @rmdir($mysqlDataPath);
-    }
+    $cleanupTablespace($dbname);
 
     $pdo->exec("CREATE DATABASE `$dbname` CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci");
     $pdo->exec("USE `$dbname`");
 
     $sql = file_get_contents(__DIR__ . '/database.sql');
-    $pdo->exec($sql);
+    try {
+        $pdo->exec($sql);
+    } catch (PDOException $e) {
+        if (strpos($e->getMessage(), '1813') !== false || strpos($e->getMessage(), 'Tablespace') !== false) {
+            $cleanupTablespace($dbname);
+            $pdo->exec("CREATE DATABASE `$dbname` CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;");
+            $pdo->exec("USE `$dbname`;");
+            $pdo->exec($sql);
+        } else {
+            throw $e;
+        }
+    }
     
     echo "<p style='color: green; font-weight: bold;'>✔ Database '$dbname' created and initialized successfully!</p>";
     echo "<p style='color: green;'>✔ Seeded 6 Categories and 74 Real-World Products into MySQL!</p>";
