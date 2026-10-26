@@ -299,7 +299,7 @@ require_once __DIR__ . '/includes/header.php';
             <div class="product-img-container">
               <img src="images/products/new/r1.png" alt="SmashZone Pro X900 Racket">
               <div class="quick-view-overlay">
-                <button class="btn-quick-view" data-id="1"><i class="bi bi-eye"></i> Quick View</button>
+                <button class="btn-quick-view" data-id="1" data-image="images/products/new/r1.png" data-name="SmashZone Pro X900 Racket" data-category="Badminton Rackets" data-price="Rs. 54,900" data-old-price="Rs. 62,000"><i class="bi bi-eye"></i> Quick View</button>
               </div>
             </div>
             <div class="product-category">Badminton Rackets</div>
@@ -310,8 +310,8 @@ require_once __DIR__ . '/includes/header.php';
               <span class="rating-count">(48)</span>
             </div>
             <div class="product-price-row">
-              <span class="current-price">$189.99</span>
-              <span class="old-price">$220.00</span>
+              <span class="current-price">Rs. 54,900</span>
+              <span class="old-price">Rs. 62,000</span>
             </div>
             <button class="btn-add-cart" data-id="1">
               <i class="bi bi-cart-plus"></i> Add to Cart
@@ -329,7 +329,7 @@ require_once __DIR__ . '/includes/header.php';
             <div class="product-img-container">
               <img src="images/products/new/s4.jpeg" alt="Professional Feather Shuttlecock">
               <div class="quick-view-overlay">
-                <button class="btn-quick-view" data-id="2"><i class="bi bi-eye"></i> Quick View</button>
+                <button class="btn-quick-view" data-id="2" data-image="images/products/new/s4.jpeg" data-name="Professional Feather Shuttlecock" data-category="Shuttlecocks" data-price="Rs. 9,800" data-old-price="Rs. 11,500"><i class="bi bi-eye"></i> Quick View</button>
               </div>
             </div>
             <div class="product-category">Shuttlecocks</div>
@@ -340,8 +340,8 @@ require_once __DIR__ . '/includes/header.php';
               <span class="rating-count">(112)</span>
             </div>
             <div class="product-price-row">
-              <span class="current-price">$34.99</span>
-              <span class="old-price">$42.00</span>
+              <span class="current-price">Rs. 9,800</span>
+              <span class="old-price">Rs. 11,500</span>
             </div>
             <button class="btn-add-cart" data-id="2">
               <i class="bi bi-cart-plus"></i> Add to Cart
@@ -357,9 +357,9 @@ require_once __DIR__ . '/includes/header.php';
               <i class="bi bi-heart"></i>
             </button>
             <div class="product-img-container">
-              <img src="images/products//new/r8.jpeg" alt="Carbon Performance Racket">
+              <img src="images/products/new/r8.jpeg" alt="Carbon Performance Racket">
               <div class="quick-view-overlay">
-                <button class="btn-quick-view" data-id="3"><i class="bi bi-eye"></i> Quick View</button>
+                <button class="btn-quick-view" data-id="3" data-image="images/products/new/r8.jpeg" data-name="Carbon Performance Racket" data-category="Badminton Rackets" data-price="Rs. 42,500" data-old-price="Rs. 49,000"><i class="bi bi-eye"></i> Quick View</button>
               </div>
             </div>
             <div class="product-category">Badminton Rackets</div>
@@ -370,8 +370,8 @@ require_once __DIR__ . '/includes/header.php';
               <span class="rating-count">(36)</span>
             </div>
             <div class="product-price-row">
-              <span class="current-price">$149.99</span>
-              <span class="old-price">$175.00</span>
+              <span class="current-price">Rs. 42,500</span>
+              <span class="old-price">Rs. 49,000</span>
             </div>
             <button class="btn-add-cart" data-id="3">
               <i class="bi bi-cart-plus"></i> Add to Cart
@@ -387,9 +387,9 @@ require_once __DIR__ . '/includes/header.php';
               <i class="bi bi-heart"></i>
             </button>
             <div class="product-img-container">
-              <img src="images/products//new/sh1.png" alt="Elite Badminton Shoes">
+              <img src="images/products/new/sh1.png" alt="Elite Badminton Shoes">
               <div class="quick-view-overlay">
-                <button class="btn-quick-view" data-id="4"><i class="bi bi-eye"></i> Quick View</button>
+                <button class="btn-quick-view" data-id="4" data-image="images/products/new/sh1.png" data-name="Elite Badminton Shoes" data-category="Badminton Shoes" data-price="Rs. 34,500" data-old-price="Rs. 39,000"><i class="bi bi-eye"></i> Quick View</button>
               </div>
             </div>
             <div class="product-category">Badminton Shoes</div>
@@ -400,8 +400,8 @@ require_once __DIR__ . '/includes/header.php';
               <span class="rating-count">(64)</span>
             </div>
             <div class="product-price-row">
-              <span class="current-price">$119.99</span>
-              <span class="old-price">$140.00</span>
+              <span class="current-price">Rs. 34,500</span>
+              <span class="old-price">Rs. 39,000</span>
             </div>
             <button class="btn-add-cart" data-id="4">
               <i class="bi bi-cart-plus"></i> Add to Cart
@@ -417,9 +417,9 @@ require_once __DIR__ . '/includes/header.php';
               <i class="bi bi-heart"></i>
             </button>
             <div class="product-img-container">
-              <img src="images/products//new/c1.png" alt="SmashZone Performance Jersey">
+              <img src="images/products/new/c1.png" alt="SmashZone Performance Jersey">
               <div class="quick-view-overlay">
-                <button class="btn-quick-view" data-id="5"><i class="bi bi-eye"></i> Quick View</button>
+                <button class="btn-quick-view" data-id="5" data-image="images/products/new/c1.png" data-name="SmashZone Performance Jersey" data-category="Clothings" data-price="Rs. 12,500" data-old-price="Rs. 15,000"><i class="bi bi-eye"></i> Quick View</button>
               </div>
             </div>
             <div class="product-category">Clothings</div>
@@ -430,8 +430,8 @@ require_once __DIR__ . '/includes/header.php';
               <span class="rating-count">(29)</span>
             </div>
             <div class="product-price-row">
-              <span class="current-price">$45.00</span>
-              <span class="old-price">$55.00</span>
+              <span class="current-price">Rs. 12,500</span>
+              <span class="old-price">Rs. 15,000</span>
             </div>
             <button class="btn-add-cart" data-id="5">
               <i class="bi bi-cart-plus"></i> Add to Cart
@@ -447,9 +447,9 @@ require_once __DIR__ . '/includes/header.php';
               <i class="bi bi-heart"></i>
             </button>
             <div class="product-img-container">
-              <img src="images/products//new/b2.jpeg" alt="Premium Badminton Backpack">
+              <img src="images/products/new/b2.jpeg" alt="Premium Badminton Backpack">
               <div class="quick-view-overlay">
-                <button class="btn-quick-view" data-id="6"><i class="bi bi-eye"></i> Quick View</button>
+                <button class="btn-quick-view" data-id="6" data-image="images/products/new/b2.jpeg" data-name="Premium Badminton Backpack" data-category="Badminton Bags" data-price="Rs. 22,900" data-old-price="Rs. 26,500"><i class="bi bi-eye"></i> Quick View</button>
               </div>
             </div>
             <div class="product-category">Badminton Bags</div>
@@ -460,8 +460,8 @@ require_once __DIR__ . '/includes/header.php';
               <span class="rating-count">(51)</span>
             </div>
             <div class="product-price-row">
-              <span class="current-price">$79.99</span>
-              <span class="old-price">$95.00</span>
+              <span class="current-price">Rs. 22,900</span>
+              <span class="old-price">Rs. 26,500</span>
             </div>
             <button class="btn-add-cart" data-id="6">
               <i class="bi bi-cart-plus"></i> Add to Cart
@@ -477,9 +477,9 @@ require_once __DIR__ . '/includes/header.php';
               <i class="bi bi-heart"></i>
             </button>
             <div class="product-img-container">
-              <img src="images/products//new/a3.jpeg" alt="Pro Grip Set">
+              <img src="images/products/new/a3.jpeg" alt="Pro Grip Set">
               <div class="quick-view-overlay">
-                <button class="btn-quick-view" data-id="7"><i class="bi bi-eye"></i> Quick View</button>
+                <button class="btn-quick-view" data-id="7" data-image="images/products/new/a3.jpeg" data-name="Pro Grip Set (Pack of 3)" data-category="Accessories" data-price="Rs. 4,200" data-old-price="Rs. 5,000"><i class="bi bi-eye"></i> Quick View</button>
               </div>
             </div>
             <div class="product-category">Accessories</div>
@@ -490,8 +490,8 @@ require_once __DIR__ . '/includes/header.php';
               <span class="rating-count">(88)</span>
             </div>
             <div class="product-price-row">
-              <span class="current-price">$14.99</span>
-              <span class="old-price">$18.00</span>
+              <span class="current-price">Rs. 4,200</span>
+              <span class="old-price">Rs. 5,000</span>
             </div>
             <button class="btn-add-cart" data-id="7">
               <i class="bi bi-cart-plus"></i> Add to Cart
@@ -507,9 +507,9 @@ require_once __DIR__ . '/includes/header.php';
               <i class="bi bi-heart"></i>
             </button>
             <div class="product-img-container">
-              <img src="images/products//new/s5.jpeg" alt="Tournament Shuttlecock">
+              <img src="images/products/new/s5.jpeg" alt="Tournament Shuttlecock">
               <div class="quick-view-overlay">
-                <button class="btn-quick-view" data-id="8"><i class="bi bi-eye"></i> Quick View</button>
+                <button class="btn-quick-view" data-id="8" data-image="images/products/new/s5.jpeg" data-name="Tournament Shuttlecock Box" data-category="Shuttlecocks" data-price="Rs. 11,200" data-old-price="Rs. 13,000"><i class="bi bi-eye"></i> Quick View</button>
               </div>
             </div>
             <div class="product-category">Shuttlecocks</div>
@@ -520,8 +520,8 @@ require_once __DIR__ . '/includes/header.php';
               <span class="rating-count">(42)</span>
             </div>
             <div class="product-price-row">
-              <span class="current-price">$39.99</span>
-              <span class="old-price">$48.00</span>
+              <span class="current-price">Rs. 11,200</span>
+              <span class="old-price">Rs. 13,000</span>
             </div>
             <button class="btn-add-cart" data-id="8">
               <i class="bi bi-cart-plus"></i> Add to Cart
@@ -556,65 +556,6 @@ require_once __DIR__ . '/includes/header.php';
           <div class="col-lg-5 text-center">
             <div class="promo-img-wrapper">
               <img src="images/banners/promo-banner.png" alt="Gear Up Smash Harder Promotional Banner">
-            </div>
-          </div>
-
-        </div>
-      </div>
-    </div>
-  </section>
-
-
-  <!-- ==========================================================================
-       SPECIAL OFFER & COUNTDOWN TIMER
-       ========================================================================== -->
-  <section class="special-offer-section" id="special-offer">
-    <div class="container">
-      <div class="offer-card-box">
-        <div class="row align-items-center gy-4">
-
-          <div class="col-lg-7">
-            <div class="section-tag tag-orange">LIMITED TIME OFFER</div>
-            <h2 class="display-5 fw-bold mb-3">Level Up Your Game.</h2>
-            <p class="lead text-light mb-0" style="font-size: 1.1rem; max-width: 500px;">
-              Discover selected badminton essentials at special prices. Save up to 30% on tournament packages!
-            </p>
-
-            <div class="countdown-timer-wrapper">
-              <div class="timer-unit">
-                <span id="timerHours" class="timer-num">14</span>
-                <span class="timer-label">Hours</span>
-              </div>
-              <span class="timer-colon">:</span>
-              <div class="timer-unit">
-                <span id="timerMinutes" class="timer-num">45</span>
-                <span class="timer-label">Mins</span>
-              </div>
-              <span class="timer-colon">:</span>
-              <div class="timer-unit">
-                <span id="timerSeconds" class="timer-num">30</span>
-                <span class="timer-label">Secs</span>
-              </div>
-            </div>
-
-            <a href="#new-arrivals" class="btn btn-brand-orange">
-              VIEW OFFERS <i class="bi bi-tag-fill ms-1"></i>
-            </a>
-          </div>
-
-          <div class="col-lg-5 text-center">
-            <div class="p-4 bg-white rounded-4 shadow-lg text-dark text-start border border-2 border-warning">
-              <span class="badge bg-danger mb-2">HOT BUNDLE DEAL</span>
-              <h4 class="fw-bold text-navy">Pro Tournament Bundle</h4>
-              <p class="text-muted small mb-3">Pro X900 Racket + 1 Tube Feather Shuttles + Overgrip 3-Pack</p>
-              <div class="d-flex align-items-baseline gap-2 mb-3">
-                <span class="fs-2 fw-bold text-primary">$199.99</span>
-                <span class="text-muted text-decoration-line-through">$265.00</span>
-                <span class="badge bg-success">Save $65</span>
-              </div>
-              <button class="btn btn-brand-primary w-100 btn-add-cart" data-id="1">
-                Claim Offer Now
-              </button>
             </div>
           </div>
 
@@ -703,28 +644,6 @@ require_once __DIR__ . '/includes/header.php';
       </div>
     </div>
   </section>
-
-  <!-- ==========================================================================
-       NEWSLETTER SECTION
-       ========================================================================== -->
-  <section class="newsletter-section" id="newsletter">
-    <div class="container">
-      <div class="newsletter-box">
-        <div class="section-tag">JOIN THE CLUB</div>
-        <h2 class="section-title">Stay Ahead of the Game.</h2>
-        <p class="section-subtitle mb-0">Get updates about new arrivals, special offers, and badminton essentials.</p>
-
-        <form id="newsletterForm" class="newsletter-form">
-          <input type="email" id="newsletterEmail" class="form-control newsletter-input"
-            placeholder="Enter your email address" required>
-          <button type="submit" class="btn btn-brand-primary px-4">
-            SUBSCRIBE <i class="bi bi-send-fill ms-1"></i>
-          </button>
-        </form>
-      </div>
-    </div>
-  </section>
-
   
 
   <!-- ==========================================================================
@@ -786,43 +705,5 @@ require_once __DIR__ . '/includes/header.php';
       </div>
     </div>
   </div>
-
-  <!-- 2. PRODUCT QUICK VIEW MODAL -->
-  <div class="modal fade" id="quickViewModal" tabindex="-1" aria-labelledby="quickViewModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-lg">
-      <div class="modal-content border-0 shadow-lg" style="border-radius: 16px; overflow: hidden;">
-        <div class="modal-header border-0 pb-0">
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body p-4">
-          <div class="row g-4 align-items-center">
-            <div class="col-md-6 text-center">
-              <div class="p-3 bg-light rounded-3">
-                <img id="quickViewImage" src="" alt="Product Quick View" class="img-fluid"
-                  style="max-height: 280px; object-fit: contain;">
-              </div>
-            </div>
-            <div class="col-md-6">
-              <span id="quickViewCategory" class="badge bg-light text-primary text-uppercase mb-2">CATEGORY</span>
-              <h3 id="quickViewTitle" class="fw-bold mb-2">Product Title</h3>
-              <div class="d-flex align-items-center gap-2 mb-3">
-                <span id="quickViewPrice" class="fs-3 fw-bold text-primary">$0.00</span>
-                <span id="quickViewOldPrice" class="text-muted text-decoration-line-through">$0.00</span>
-              </div>
-              <p id="quickViewDesc" class="text-muted mb-4">Product detailed description goes here...</p>
-              <button id="quickViewAddCartBtn" class="btn btn-brand-primary w-100 py-3">
-                <i class="bi bi-cart-plus me-2"></i> Add to Cart
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- BACK TO TOP FLOATING BUTTON -->
-  <button id="backToTopBtn" class="back-to-top-btn" aria-label="Back to top">
-    <i class="bi bi-arrow-up-short fs-3"></i>
-  </button>
 
 <?php require_once __DIR__ . '/includes/footer.php'; ?>

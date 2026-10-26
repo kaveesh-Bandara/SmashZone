@@ -15,104 +15,104 @@ document.addEventListener('DOMContentLoaded', () => {
       id: 1,
       name: 'SmashZone Pro X900 Racket',
       category: 'rackets',
-      price: 189.99,
-      oldPrice: 220.00,
+      price: 54900.00,
+      oldPrice: 62000.00,
       badge: 'NEW',
       badgeClass: 'badge-new',
       rating: 4.9,
       reviews: 48,
-      image: 'images/products/product-racket-x900.png',
+      image: 'images/products/new/r1.png',
       desc: 'High-modulus carbon fiber frame with head-heavy balance for explosive smash power. Engineered for aggressive tournament players.'
     },
     {
       id: 2,
       name: 'Professional Feather Shuttlecock',
       category: 'shuttlecocks',
-      price: 34.99,
-      oldPrice: 42.00,
+      price: 9800.00,
+      oldPrice: 11500.00,
       badge: 'BESTSELLER',
       badgeClass: 'badge-sale',
       rating: 5.0,
       reviews: 112,
-      image: 'images/products/product-shuttle-feather.png',
+      image: 'images/products/new/s4.jpeg',
       desc: 'Grade-A goose feather shuttlecocks with natural cork base. Premium flight stability and superior rally durability.'
     },
     {
       id: 3,
       name: 'Carbon Performance Racket',
       category: 'rackets',
-      price: 149.99,
-      oldPrice: 175.00,
+      price: 42500.00,
+      oldPrice: 49000.00,
       badge: '-15%',
       badgeClass: 'badge-sale',
       rating: 4.8,
       reviews: 36,
-      image: 'images/products/product-racket-carbon.png',
+      image: 'images/products/new/r8.jpeg',
       desc: 'Even-balance aero frame offering fast handling and crisp control. Perfect all-around choice for club players.'
     },
     {
       id: 4,
       name: 'Elite Badminton Shoes',
       category: 'shoes',
-      price: 119.99,
-      oldPrice: 140.00,
+      price: 34500.00,
+      oldPrice: 39000.00,
       badge: 'HOT',
       badgeClass: 'badge-hot',
       rating: 4.9,
       reviews: 64,
-      image: 'images/products/product-shoes-elite.png',
+      image: 'images/products/new/sh1.png',
       desc: 'Non-marking high-traction gum rubber sole with heel shock-absorber cushion. Designed for rapid footwork and stability.'
     },
     {
       id: 5,
       name: 'SmashZone Performance Jersey',
       category: 'clothing',
-      price: 45.00,
-      oldPrice: 55.00,
+      price: 12500.00,
+      oldPrice: 15000.00,
       badge: 'NEW',
       badgeClass: 'badge-new',
       rating: 4.8,
       reviews: 29,
-      image: 'images/products/product-jersey.png',
+      image: 'images/products/new/c1.png',
       desc: 'Ultra-lightweight moisture-wicking athletic tee with anti-bacterial tech. Maximum breathability during intense matches.'
     },
     {
       id: 6,
       name: 'Premium Badminton Backpack',
       category: 'bags',
-      price: 79.99,
-      oldPrice: 95.00,
+      price: 22900.00,
+      oldPrice: 26500.00,
       badge: '-16%',
       badgeClass: 'badge-sale',
       rating: 4.9,
       reviews: 51,
-      image: 'images/products/product-backpack.png',
+      image: 'images/products/new/b2.jpeg',
       desc: 'Dedicated padded 3-racket compartment with shoe bag tunnel and accessory organizer pockets.'
     },
     {
       id: 7,
       name: 'Pro Grip Set (Pack of 3)',
       category: 'accessories',
-      price: 14.99,
-      oldPrice: 18.00,
+      price: 4200.00,
+      oldPrice: 5000.00,
       badge: 'TOP RATED',
       badgeClass: 'badge-new',
       rating: 5.0,
       reviews: 88,
-      image: 'images/products/product-grip-set.png',
+      image: 'images/products/new/a3.jpeg',
       desc: 'High-tack absorbent polyurethane overgrips for non-slip hold in sweaty match conditions.'
     },
     {
       id: 8,
       name: 'Tournament Shuttlecock Box',
       category: 'shuttlecocks',
-      price: 39.99,
-      oldPrice: 48.00,
+      price: 11200.00,
+      oldPrice: 13000.00,
       badge: 'LIMITED',
       badgeClass: 'badge-hot',
       rating: 4.9,
       reviews: 42,
-      image: 'images/products/product-shuttle-tournament.png',
+      image: 'images/products/new/s5.jpeg',
       desc: 'BWF-standard approved speed 77 tournament feather shuttles crafted for high-altitude accuracy.'
     }
   ];
@@ -472,45 +472,105 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  // Quick View Buttons
-  document.querySelectorAll('.btn-quick-view').forEach(btn => {
-    btn.addEventListener('click', (e) => {
-      const id = parseInt(e.currentTarget.getAttribute('data-id'));
-      openQuickView(id);
-    });
+  // Quick View Buttons (Delegated listener to handle all clicks reliably)
+  document.addEventListener('click', (e) => {
+    const btn = e.target.closest('.btn-quick-view');
+    if (btn) {
+      e.preventDefault();
+      e.stopPropagation();
+      const id = parseInt(btn.getAttribute('data-id')) || 0;
+      openQuickView(id, btn);
+    }
   });
 
-  function openQuickView(productId) {
+  function openQuickView(productId, btnElem = null) {
     const product = productsData.find(p => p.id === productId);
-    if (!product) return;
 
-    const modalTitle = document.getElementById('quickViewTitle');
-    const modalImage = document.getElementById('quickViewImage');
-    const modalCategory = document.getElementById('quickViewCategory');
-    const modalPrice = document.getElementById('quickViewPrice');
-    const modalOldPrice = document.getElementById('quickViewOldPrice');
-    const modalDesc = document.getElementById('quickViewDesc');
-    const modalAddToCartBtn = document.getElementById('quickViewAddCartBtn');
+    const modalElem = document.getElementById('quickViewModal');
+    if (!modalElem) return;
 
-    if (modalTitle) modalTitle.textContent = product.name;
-    if (modalImage) modalImage.src = product.image;
-    if (modalCategory) modalCategory.textContent = product.category;
-    if (modalPrice) modalPrice.textContent = `$${product.price.toFixed(2)}`;
-    if (modalOldPrice) modalOldPrice.textContent = `$${product.oldPrice.toFixed(2)}`;
-    if (modalDesc) modalDesc.textContent = product.desc;
+    // Extract image and info directly from the clicked product card or button attributes
+    let cardImgSrc = '';
+    let cardName = '';
+    let cardCat = '';
+    let cardPrice = '';
+    let cardOldPrice = '';
+
+    if (btnElem) {
+      // 1. Direct data attributes on button
+      if (btnElem.dataset) {
+        cardImgSrc = btnElem.dataset.image || btnElem.getAttribute('data-image') || '';
+        cardName = btnElem.dataset.name || btnElem.getAttribute('data-name') || '';
+        cardCat = btnElem.dataset.category || btnElem.getAttribute('data-category') || '';
+        cardPrice = btnElem.dataset.price || btnElem.getAttribute('data-price') || '';
+        cardOldPrice = btnElem.dataset.oldPrice || btnElem.getAttribute('data-old-price') || '';
+      }
+
+      // 2. Fallback to DOM elements within card
+      const card = btnElem.closest('.product-card') || btnElem.closest('.product-grid-item');
+      if (card) {
+        if (!cardImgSrc) {
+          const imgElem = card.querySelector('.product-img-container img') || card.querySelector('img');
+          if (imgElem) {
+            cardImgSrc = imgElem.getAttribute('src') || imgElem.src;
+          }
+        }
+        if (!cardName) {
+          const nameElem = card.querySelector('.product-name');
+          if (nameElem) cardName = nameElem.textContent.trim();
+        }
+        if (!cardCat) {
+          const catElem = card.querySelector('.product-category');
+          if (catElem) cardCat = catElem.textContent.trim();
+        }
+        if (!cardPrice) {
+          const curPriceElem = card.querySelector('.current-price');
+          if (curPriceElem) cardPrice = curPriceElem.textContent.trim();
+        }
+        if (!cardOldPrice) {
+          const oldPriceElem = card.querySelector('.old-price');
+          if (oldPriceElem) cardOldPrice = oldPriceElem.textContent.trim();
+        }
+      }
+    }
+
+    const finalImage = cardImgSrc || (product ? product.image : '') || 'images/products/new/r1.png';
+    const finalName = cardName || (product ? product.name : 'Badminton Equipment');
+    const finalCategory = cardCat || (product ? product.category : 'Badminton Gear');
+    const finalPrice = cardPrice || (product ? `Rs. ${Number(product.price).toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2})}` : 'Rs. 0.00');
+    const finalOldPrice = cardOldPrice || (product && product.oldPrice ? `Rs. ${Number(product.oldPrice).toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2})}` : '');
+    const finalDesc = (product && product.desc) ? product.desc : 'High-grade badminton equipment crafted for tournament performance, power, and durability.';
+
+    // Update modal elements
+    const modalTitle = modalElem.querySelector('#quickViewTitle') || document.getElementById('quickViewTitle');
+    const modalImages = document.querySelectorAll('#quickViewImage');
+    const modalCategory = modalElem.querySelector('#quickViewCategory') || document.getElementById('quickViewCategory');
+    const modalPrice = modalElem.querySelector('#quickViewPrice') || document.getElementById('quickViewPrice');
+    const modalOldPrice = modalElem.querySelector('#quickViewOldPrice') || document.getElementById('quickViewOldPrice');
+    const modalDesc = modalElem.querySelector('#quickViewDesc') || document.getElementById('quickViewDesc');
+    const modalAddToCartBtn = modalElem.querySelector('#quickViewAddCartBtn') || document.getElementById('quickViewAddCartBtn');
+
+    if (modalTitle) modalTitle.textContent = finalName;
+    modalImages.forEach(img => {
+      img.src = finalImage;
+      img.setAttribute('src', finalImage);
+      img.alt = finalName;
+    });
+    if (modalCategory) modalCategory.textContent = finalCategory;
+    if (modalPrice) modalPrice.textContent = finalPrice;
+    if (modalOldPrice) modalOldPrice.textContent = finalOldPrice;
+    if (modalDesc) modalDesc.textContent = finalDesc;
 
     if (modalAddToCartBtn) {
       modalAddToCartBtn.onclick = () => {
-        addToCart(product.id);
-        const modalElem = document.getElementById('quickViewModal');
-        const bsModal = bootstrap.Modal.getInstance(modalElem);
+        addToCart(productId);
+        const bsModal = bootstrap.Modal.getInstance(modalElem) || bootstrap.Modal.getOrCreateInstance(modalElem);
         if (bsModal) bsModal.hide();
       };
     }
 
-    const modalElem = document.getElementById('quickViewModal');
-    if (modalElem) {
-      const bsModal = new bootstrap.Modal(modalElem);
+    const bsModal = bootstrap.Modal.getInstance(modalElem) || new bootstrap.Modal(modalElem);
+    if (bsModal) {
       bsModal.show();
     }
   }

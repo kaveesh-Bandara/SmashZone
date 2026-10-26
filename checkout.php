@@ -75,13 +75,23 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
                 $orderStmt->execute([$user['id'], $grandTotal, $paymentMethod, $paymentStatus, $fullAddress]);
                 $orderId = $pdo->lastInsertId();
 
-                // Insert order items & reduce stock
+                // Insert order items & reduce stock (with foreign-key validation)
+                $checkProdStmt = $pdo->prepare("SELECT id FROM products WHERE id = ?");
+                $fallbackProdStmt = $pdo->prepare("INSERT INTO products (id, category_id, brand, name, price, old_price, stock, status, image) VALUES (?, 1, 'SmashZone', ?, ?, ?, 20, 'active', 'images/products/new/r1.png')");
                 $itemStmt = $pdo->prepare("INSERT INTO order_items (order_id, product_id, price, quantity) VALUES (?, ?, ?, ?)");
                 $stockStmt = $pdo->prepare("UPDATE products SET stock = GREATEST(0, stock - ?) WHERE id = ?");
 
                 foreach ($cart as $item) {
-                    $itemStmt->execute([$orderId, $item['id'], $item['price'], $item['qty']]);
-                    $stockStmt->execute([$item['qty'], $item['id']]);
+                    $pid = (int)($item['id'] ?? 0);
+                    $checkProdStmt->execute([$pid]);
+                    if (!$checkProdStmt->fetchColumn()) {
+                        // Ensure product exists in products table before inserting to prevent foreign key violation
+                        $prodName = !empty($item['name']) ? $item['name'] : 'Badminton Product #' . $pid;
+                        $prodPrice = floatval($item['price'] ?? 0);
+                        $fallbackProdStmt->execute([$pid, $prodName, $prodPrice, $prodPrice * 1.15]);
+                    }
+                    $itemStmt->execute([$orderId, $pid, $item['price'], $item['qty']]);
+                    $stockStmt->execute([$item['qty'], $pid]);
                 }
 
                 $pdo->commit();
@@ -506,17 +516,6 @@ require_once __DIR__ . '/includes/header.php';
                 <div class="d-flex align-items-center gap-1">
                   <span class="badge bg-primary-subtle text-primary font-semibold px-2 py-1 me-1" style="font-size: 0.75rem;"><i class="bi bi-shield-check me-1"></i>PayHere</span>
                   <i class="bi bi-credit-card-fill fs-5 text-primary"></i>
-                </div>
-              </label>
-
-              <!-- Option 3: Bank Transfer -->
-              <label class="payment-option-card d-flex align-items-center justify-content-between" onclick="selectPaymentOption(this);">
-                <div class="d-flex align-items-center gap-3">
-                  <input type="radio" name="payment_method" value="bank_transfer" class="form-check-input">
-                  <div>
-                    <div class="fw-bold text-dark"><i class="bi bi-bank text-info me-1"></i> Direct Bank Transfer</div>
-                    <small class="text-muted">Deposit directly to SmashZone Commercial Bank / Sampath Bank account.</small>
-                  </div>
                 </div>
               </label>
 

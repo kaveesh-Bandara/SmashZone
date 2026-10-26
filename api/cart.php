@@ -33,9 +33,19 @@ if ($action === 'add' && $productId > 0) {
     $stmt->execute([$productId]);
     $product = $stmt->fetch();
 
-    $name = $product ? $product['name'] : trim($_POST['name'] ?? 'Badminton Equipment');
-    $price = $product ? floatval($product['price']) : floatval($_POST['price'] ?? 0);
-    $image = $product ? $product['image'] : trim($_POST['image'] ?? 'images/products/product-racket-x900.png');
+    if ($product) {
+        $name = $product['name'];
+        $price = floatval($product['price']);
+        $image = $product['image'];
+    } else {
+        $name = trim($_POST['name'] ?? 'Badminton Equipment #' . $productId);
+        $price = floatval($_POST['price'] ?? 0);
+        $image = trim($_POST['image'] ?? 'images/products/new/r1.png');
+        
+        // Auto-persist into products to maintain referential integrity
+        $insStmt = $pdo->prepare("INSERT INTO products (id, category_id, brand, name, price, old_price, stock, status, image) VALUES (?, 1, 'SmashZone', ?, ?, ?, 20, 'active', ?) ON DUPLICATE KEY UPDATE name=VALUES(name)");
+        $insStmt->execute([$productId, $name, $price, $price * 1.15, $image]);
+    }
 
     if (isset($_SESSION['cart'][$productId])) {
         $_SESSION['cart'][$productId]['qty'] += max(1, $quantity);

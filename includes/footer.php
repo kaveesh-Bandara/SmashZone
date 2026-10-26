@@ -96,8 +96,8 @@ if (session_status() === PHP_SESSION_NONE) {
         <div class="modal-body p-4">
           <div class="row g-4 align-items-center">
             <div class="col-md-6 text-center">
-              <div class="p-3 bg-light rounded-3">
-                <img id="quickViewImage" src="" alt="Product Quick View" class="img-fluid" style="max-height: 280px; object-fit: contain;">
+              <div class="p-3 bg-light rounded-3 d-flex align-items-center justify-content-center" style="min-height: 280px;">
+                <img id="quickViewImage" src="" alt="Product Quick View" class="img-fluid" style="max-height: 280px; object-fit: contain;" onerror="this.src='images/logo/logo.png'">
               </div>
             </div>
             <div class="col-md-6">
@@ -149,7 +149,7 @@ if (session_status() === PHP_SESSION_NONE) {
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
   <!-- SmashZone Global E-Commerce & Cart JavaScript -->
-  <script src="js/script.js"></script>
+  <script src="js/script.js?v=<?= time() ?>"></script>
 
   <!-- Global Auth JS State -->
   <script>

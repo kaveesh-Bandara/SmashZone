@@ -22,10 +22,13 @@ CREATE TABLE IF NOT EXISTS `users` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- Seed Default Accounts (Customer & Admin)
+-- Default Credentials:
+--   Customer: customer@smashzone.lk / customer123
+--   Admin:    admin@smashzone.lk / admin123
 INSERT INTO `users` (`id`, `first_name`, `last_name`, `email`, `password`, `phone`, `profile_picture`, `role`, `status`) VALUES
 (1, 'Marcus', 'Vance', 'customer@smashzone.lk', '$2y$10$GXuJ5YEwtYy6yJAvsbi4U.fSraB.MR2rRd0vx0GE9X1lPHRUTZLou', '+94 77 123 4567', 'images/avatars/default-avatar.svg', 'customer', 'active'),
-(2, 'SmashZone', 'Administrator', 'admin@smashzone.lk', '$2y$10$glouw5fZy3Pr9Ez9ILcvIuXpDwygOJBaRlL9W0xnS48sO3DZWK53a', '+94 11 234 5678', 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=300&q=80', 'admin', 'active')
-ON DUPLICATE KEY UPDATE `email` = VALUES(`email`);
+(2, 'SmashZone', 'Administrator', 'admin@smashzone.lk', '$2y$10$1XChAmd10z93GASXbwSzH.B0MQEiuRQqhj1VYLtF7nye9UqKv4jC2', '+94 11 234 5678', 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=300&q=80', 'admin', 'active')
+ON DUPLICATE KEY UPDATE `email` = VALUES(`email`), `password` = VALUES(`password`);
 
 -- 2. CATEGORIES TABLE
 CREATE TABLE IF NOT EXISTS `categories` (
@@ -66,6 +69,18 @@ CREATE TABLE IF NOT EXISTS `products` (
   `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   FOREIGN KEY (`category_id`) REFERENCES `categories`(`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- Seed 8 Featured Homepage Products (IDs 1-8)
+INSERT INTO `products` (`id`, `category_id`, `brand`, `name`, `price`, `old_price`, `badge`, `badge_class`, `rating`, `reviews`, `image`, `spec_1`, `spec_2`, `spec_3`, `description`) VALUES
+(1, 1, 'SmashZone', 'SmashZone Pro X900 Racket', 54900.00, 62000.00, 'NEW', 'badge-new', 4.9, 48, 'images/products/new/r1.png', 'Head Heavy', 'Advanced', '4U (83g)', 'High-modulus carbon fiber frame with head-heavy balance for explosive smash power.'),
+(2, 2, 'SmashZone', 'Professional Feather Shuttlecock', 9800.00, 11500.00, 'BESTSELLER', 'badge-sale', 5.0, 112, 'images/products/new/s4.jpeg', 'Feather', 'Speed 77', 'Tournament', 'Grade-A goose feather shuttlecocks with natural cork base.'),
+(3, 1, 'SmashZone', 'Carbon Performance Racket', 42500.00, 49000.00, '-15%', 'badge-sale', 4.8, 36, 'images/products/new/r8.jpeg', 'Even Balance', 'Intermediate', '4U (84g)', 'Even-balance aero frame offering fast handling and crisp control.'),
+(4, 3, 'SmashZone', 'Elite Badminton Shoes', 34500.00, 39000.00, 'HOT', 'badge-hot', 4.9, 64, 'images/products/new/sh1.png', 'Gum Rubber', 'Cushion Midsole', 'Men/Unisex', 'Non-marking high-traction gum rubber sole with heel shock-absorber cushion.'),
+(5, 4, 'SmashZone', 'SmashZone Performance Jersey', 12500.00, 15000.00, 'NEW', 'badge-new', 4.8, 29, 'images/products/new/c1.png', 'Dry-Fit', 'Breathable', 'Unisex', 'Ultra-lightweight moisture-wicking athletic tee with anti-bacterial tech.'),
+(6, 5, 'SmashZone', 'Premium Badminton Backpack', 22900.00, 26500.00, '-16%', 'badge-sale', 4.9, 51, 'images/products/new/b2.jpeg', 'Thermo-Guard', '6 Rackets', 'Shoe Pocket', 'Dedicated padded 3-racket compartment with shoe bag tunnel and accessory organizer pockets.'),
+(7, 6, 'SmashZone', 'Pro Grip Set (Pack of 3)', 4200.00, 5000.00, 'TOP RATED', 'badge-new', 5.0, 88, 'images/products/new/a3.jpeg', 'Overgrips', '0.6mm Tacky', 'Pack of 3', 'High-tack absorbent polyurethane overgrips for non-slip hold in sweaty match conditions.'),
+(8, 2, 'SmashZone', 'Tournament Shuttlecock Box', 11200.00, 13000.00, 'LIMITED', 'badge-hot', 4.9, 42, 'images/products/new/s5.jpeg', 'Feather', 'Speed 77', 'Tournament', 'BWF-standard approved speed 77 tournament feather shuttles crafted for high-altitude accuracy.')
+ON DUPLICATE KEY UPDATE `name` = VALUES(`name`);
 
 -- Seed 17 Badminton Rackets
 INSERT INTO `products` (`id`, `category_id`, `brand`, `name`, `price`, `old_price`, `badge`, `badge_class`, `rating`, `reviews`, `image`, `spec_1`, `spec_2`, `spec_3`, `description`) VALUES
